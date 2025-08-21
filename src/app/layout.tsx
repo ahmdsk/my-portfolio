@@ -1,8 +1,9 @@
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
 import { auth } from "@/auth";
 import Navbar from "@/components/navbar";
 import type { ReactNode } from "react";
+import Providers from "./providers";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Portofolio | Ahmad",
@@ -25,12 +26,14 @@ export default async function RootLayout({
           <div className="absolute right-[-10%] bottom-[-20%] h-[50vh] w-[60vw] rounded-full bg-[conic-gradient(from_180deg,var(--brand),transparent_70%)] opacity-[0.12] blur-2xl" />
         </div>
 
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Providers session={session}>
           <Navbar />
           <main className="mx-auto w-full max-w-6xl px-4 md:px-6 py-10">
             {children}
           </main>
-        </ThemeProvider>
+        </Providers>
+
+        <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
       </body>
     </html>
   );

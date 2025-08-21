@@ -9,12 +9,13 @@ export default function Navbar() {
     { href: "/", label: "Home" },
     { href: "/#projects", label: "Proyek" },
     { href: "/#contact", label: "Kontak" },
+    { href: "/saran", label: "Saran" },
   ];
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/70 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4 md:px-6">
-        <Link href="/" className="text-base font-semibold tracking-tight bg-gradient-to-r from-brand to-primary bg-clip-text text-transparent">
+        <Link href="/" className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand to-primary bg-clip-text text-transparent">
           Ahmad<span className="opacity-70">.dev</span>
         </Link>
         <nav className="flex items-center gap-1.5">
