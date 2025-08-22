@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import toast from "react-hot-toast";
 import { Project } from "@/types";
+import Image from "next/image";
 
 export default function ProjectTable() {
   const [rows, setRows] = useState<Project[]>([]);
@@ -56,7 +57,7 @@ export default function ProjectTable() {
       <TableRow key={r.id}>
         <TableCell className="w-[80px]">
           {r.cover ? (
-            <img src={r.cover} alt={r.coverAlt ?? r.title} className="h-12 w-12 rounded object-cover" />
+            <Image src={r.cover} alt={r.coverAlt ?? r.title} width={200} height={200} className="h-12 w-12 rounded object-cover" />
           ) : (
             <div className="h-12 w-12 rounded bg-muted" />
           )}

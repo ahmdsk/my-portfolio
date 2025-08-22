@@ -1,7 +1,11 @@
-import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { initializeApp, getApps, FirebaseApp, getApp } from 'firebase/app';
 import { getStorage } from "firebase/storage";
-import { getFirestore, Firestore, DocumentData, QueryDocumentSnapshot, Timestamp, type FirestoreDataConverter } from 'firebase/firestore';
+import { getFirestore, Firestore, DocumentData, QueryDocumentSnapshot, Timestamp, type FirestoreDataConverter, SnapshotOptions } from 'firebase/firestore';
 import type { Project, Saran } from '@/types';
+
+type ProjectDoc = Omit<Project, "id" | "createdAt"> & {
+  createdAt: Timestamp | null;
+};
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,36 +16,42 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+export const app: FirebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const db: Firestore = getFirestore(app);
 export const storage = getStorage(app);
 
 // Firestore converters
 export const projectConverter: FirestoreDataConverter<Project> = {
-  toFirestore(p: Project) {
+  toFirestore(p): DocumentData {
+    // NOTE: only used if you also choose to write via converter.
     return {
       title: p.title,
-      shortDescription: p.shortDescription ?? "",
-      description: p.description ?? "",      // HTML
+      shortDescription: p.shortDescription,
+      description: p.description,
       cover: p.cover ?? null,
       coverAlt: p.coverAlt ?? null,
       tags: p.tags ?? null,
       url: p.url ?? null,
-      createdAt: p.createdAt ?? Timestamp.now(),
+      createdAt: p.createdAt instanceof Timestamp ? p.createdAt.toDate() : null,
     };
   },
-  fromFirestore(snap, options): Project {
-    const d = snap.data(options) as any;
+  fromFirestore(
+    snap: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Project {
+    const d = snap.data(options) as DocumentData; // not "any"
+    const data = d as Partial<ProjectDoc>;
     return {
       id: snap.id,
-      title: d.title ?? "",
-      shortDescription: d.shortDescription ?? "",
-      description: d.description ?? "",
-      cover: d.cover ?? null,
-      coverAlt: d.coverAlt ?? null,
-      tags: d.tags ?? null,
-      url: d.url ?? null,
-      createdAt: d.createdAt instanceof Timestamp ? d.createdAt.toDate() : d.createdAt ?? null,
+      title: data.title ?? "",
+      shortDescription: data.shortDescription ?? "",
+      description: data.description ?? "",
+      cover: (data.cover ?? null) as string | null,
+      coverAlt: (data.coverAlt ?? null) as string | null,
+      tags: (data.tags ?? null) as string[] | null,
+      url: (data.url ?? null) as string | null,
+      createdAt:
+        data.createdAt instanceof Timestamp ? data.createdAt.toDate() : null,
     };
   },
 };

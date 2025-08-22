@@ -1,3 +1,5 @@
+import { FieldValue } from "firebase/firestore";
+
 export type Project = {
   id: string;
   title: string;
@@ -18,3 +20,8 @@ export interface Saran {
   userId: string;
   createdAt?: Date;
 }
+
+
+export type NewProject = Omit<Project, "id" | "createdAt"> & {
+  createdAt: FieldValue;
+};

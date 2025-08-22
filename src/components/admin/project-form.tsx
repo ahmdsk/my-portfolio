@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import RichEditor from "@/components/editor/rich-editor"; // TipTap wrapper (lihat: components/editor/rich-editor.tsx)
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db, projectConverter, storage } from "@/lib/firebase";
+import { db, storage } from "@/lib/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Image from "next/image";
+import { NewProject } from "@/types";
 
 export default function ProjectForm() {
   // form state
@@ -93,16 +95,21 @@ export default function ProjectForm() {
         finalCover = await uploadImage();
       }
 
-      await addDoc(collection(db, "projects").withConverter(projectConverter), {
+      const payload: NewProject = {
         title,
         shortDescription: shortDesc,
-        description: html, // HTML dari TipTap
-        cover: finalCover || null,
+        description: html,
+        cover: finalCover ?? null,
         coverAlt: title,
         tags: null,
-        url: `/projects/${Date.now()}`, // sesuaikan dengan rute detail project milikmu
+        url: `/projects/${Date.now()}`,
         createdAt: serverTimestamp(),
-      } as any);
+      };
+
+      await addDoc(
+        collection(db, "projects"),
+        payload
+      );
 
       toast.success("Project tersimpan 🎉");
       reset();
@@ -174,9 +181,11 @@ export default function ProjectForm() {
           )}
 
           {coverUrl && (
-            <img
+            <Image
               src={coverUrl}
               alt="Preview cover"
+              width={100}
+              height={100}
               className="mt-2 h-32 w-full rounded object-cover"
             />
           )}

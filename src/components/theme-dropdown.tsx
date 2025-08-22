@@ -55,10 +55,10 @@ export default function ThemeDropdown() {
     setActiveIndex(idx < 0 ? 0 : idx);
   }, [theme, resolvedTheme]);
 
-  const handleSelect = (value: ThemeValue) => {
+  const handleSelect = React.useCallback((value: ThemeValue) => {
     setTheme(value);
     setOpen(false);
-  };
+  }, [setTheme, setOpen]);
 
   // Klik di luar & keyboard handlers
   React.useEffect(() => {
@@ -116,7 +116,7 @@ export default function ThemeDropdown() {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [open, activeIndex]);
+  }, [open, activeIndex, handleSelect]);
 
   // Shortcut global: Ctrl/Cmd + J → toggle light/dark
   React.useEffect(() => {

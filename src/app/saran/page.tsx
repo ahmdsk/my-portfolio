@@ -89,10 +89,11 @@ export default function SaranPage() {
       } as Omit<Saran, "id">);
 
       // onSnapshot akan mengganti item optimistic dengan versi server (punya id asli)
-    } catch (e: any) {
+    } catch (e: unknown) {
       // rollback
       setItems((prev) => prev.filter((i) => i.id !== optimistic.id));
-      setError(e?.message ?? "Gagal mengirim. Coba lagi.");
+      const msg = e instanceof Error ? e.message : "Gagal mengirim. Coba lagi.";
+      setError(msg);
       setMessage(optimistic.message);
     } finally {
       setSending(false);
@@ -169,7 +170,8 @@ export default function SaranPage() {
             {session && (
               <div className="flex gap-3 items-center">
                 <span className="text-xs text-muted-foreground">
-                  {session.user?.name ?? "Anon"} ({session.user?.email ?? "anon"})
+                  {session.user?.name ?? "Anon"} (
+                  {session.user?.email ?? "anon"})
                 </span>
                 {/* Logout */}
                 <button
