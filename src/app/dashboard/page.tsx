@@ -1,13 +1,15 @@
+import AnimatedSection from "@/components/animated-section";
 import ProjectForm from "@/components/admin/project-form";
 import ProjectTable from "@/components/admin/project-table";
-import AnimatedSection from "@/components/animated-section";
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <AnimatedSection>
-        <h1 className="text-2xl font-semibold mb-2">Dashboard Admin</h1>
-        <p className="text-sm text-neutral-400">Kelola project dan saran dari pengunjung.</p>
+        <h1 className="text-2xl font-semibold mb-1">Dashboard Admin</h1>
+        <p className="text-sm text-muted-foreground">
+          Kelola project dan saran dari pengunjung.
+        </p>
       </AnimatedSection>
 
       <AnimatedSection>

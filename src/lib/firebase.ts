@@ -1,5 +1,6 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
-import { getFirestore, Firestore, DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { getStorage } from "firebase/storage";
+import { getFirestore, Firestore, DocumentData, QueryDocumentSnapshot, Timestamp, type FirestoreDataConverter } from 'firebase/firestore';
 import type { Project, Saran } from '@/types';
 
 const firebaseConfig = {
@@ -13,20 +14,34 @@ const firebaseConfig = {
 
 const app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 export const db: Firestore = getFirestore(app);
+export const storage = getStorage(app);
 
 // Firestore converters
-export const projectConverter = {
-  toFirestore(p: Omit<Project, "id">) { return p; },
-  fromFirestore(snapshot: QueryDocumentSnapshot<DocumentData>): Project {
-    const data = snapshot.data();
+export const projectConverter: FirestoreDataConverter<Project> = {
+  toFirestore(p: Project) {
     return {
-      id: snapshot.id,
-      title: data.title as string,
-      description: data.description as string,
-      cover: data.cover as string | undefined,
-      tags: data.tags as string[] | undefined,
-      url: data.url as string | undefined,
-      createdAt: data.createdAt ? new Date(data.createdAt.seconds * 1000) : undefined,
+      title: p.title,
+      shortDescription: p.shortDescription ?? "",
+      description: p.description ?? "",      // HTML
+      cover: p.cover ?? null,
+      coverAlt: p.coverAlt ?? null,
+      tags: p.tags ?? null,
+      url: p.url ?? null,
+      createdAt: p.createdAt ?? Timestamp.now(),
+    };
+  },
+  fromFirestore(snap, options): Project {
+    const d = snap.data(options) as any;
+    return {
+      id: snap.id,
+      title: d.title ?? "",
+      shortDescription: d.shortDescription ?? "",
+      description: d.description ?? "",
+      cover: d.cover ?? null,
+      coverAlt: d.coverAlt ?? null,
+      tags: d.tags ?? null,
+      url: d.url ?? null,
+      createdAt: d.createdAt instanceof Timestamp ? d.createdAt.toDate() : d.createdAt ?? null,
     };
   },
 };
