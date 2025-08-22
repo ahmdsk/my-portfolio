@@ -2,14 +2,16 @@
 import { useEffect, useState } from "react";
 import ProjectCard from "@/components/project-card";
 import SkeletonCard from "./skeleton-card";
+import { Project } from "@/types";
 
-const mockProjects = [
+const mockProjects: Project[] = [
   {
     id: "1",
     title: "AI Chat App",
     description: "Chatbot modern dengan RAG dan caching",
     tags: ["Next.js", "AI", "RAG"],
     url: "#",
+    shortDescription: ""
   },
   {
     id: "2",
@@ -17,6 +19,7 @@ const mockProjects = [
     description: "UI/UX e‑commerce minimalis, cepat, responsif",
     tags: ["Tailwind", "UI"],
     url: "#",
+    shortDescription: ""
   },
   {
     id: "3",
@@ -24,6 +27,7 @@ const mockProjects = [
     description: "Kolaborasi realtime dengan Firebase",
     tags: ["Firebase", "Realtime"],
     url: "#",
+    shortDescription: ""
   },
   {
     id: "4",
@@ -31,6 +35,7 @@ const mockProjects = [
     description: "Sistem token warna OKLCH yang konsisten",
     tags: ["Design System", "OKLCH"],
     url: "#",
+    shortDescription: ""
   },
 ];
 
