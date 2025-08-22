@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
+import { JWT } from "next-auth/jwt";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
@@ -41,4 +42,20 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
   trustHost: true,
   secret: process.env.AUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        // token.role = (user as { role?: string }).role ?? "user";
+        token.role = (user as JWT).role ?? "user";
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        // session.user.role = (token as { role?: string }).role ?? "user";
+        session.user.role = (token as JWT).role ?? "user";
+      }
+      return session;
+    },
+  },
 });
