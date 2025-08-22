@@ -3,13 +3,14 @@
 import * as React from "react";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
+import { Session } from "next-auth";
 
 export default function Providers({
   children,
   session,
 }: {
   children: React.ReactNode;
-  session: any; // boleh import type Session dari next-auth jika mau
+  session: Session | null; // boleh import type Session dari next-auth jika mau
 }) {
   return (
     <SessionProvider session={session}>

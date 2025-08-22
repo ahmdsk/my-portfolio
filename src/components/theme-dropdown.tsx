@@ -75,8 +75,12 @@ export default function ThemeDropdown() {
     };
 
     const onKey = (e: KeyboardEvent) => {
+      // const openKeys =
+      //   e.key === "ArrowDown" || e.key === "ArrowUp";
+
+      // toggle dengan cmd/ctrl + J
       const openKeys =
-        e.key === "ArrowDown" || e.key === "Enter" || e.key === " ";
+        (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "j";
 
       if (!open && openKeys) {
         setOpen(true);

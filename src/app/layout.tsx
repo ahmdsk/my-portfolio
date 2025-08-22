@@ -33,7 +33,7 @@ export default async function RootLayout({
           </main>
         </Providers>
 
-        <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
+        <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       </body>
     </html>
   );

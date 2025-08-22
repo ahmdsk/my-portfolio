@@ -10,7 +10,7 @@ import {
   limit,
 } from "firebase/firestore";
 import { db, saranConverter } from "@/lib/firebase";
-import { useSession, signIn } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import CommentItem from "@/components/comment-item";
@@ -165,6 +165,21 @@ export default function SaranPage() {
               >
                 Masuk untuk mengirim
               </button>
+            )}
+            {session && (
+              <div className="flex gap-3 items-center">
+                <span className="text-xs text-muted-foreground">
+                  {session.user?.name ?? "Anon"} ({session.user?.email ?? "anon"})
+                </span>
+                {/* Logout */}
+                <button
+                  type="button"
+                  onClick={() => void signOut()}
+                  className="text-xs underline text-muted-foreground hover:text-foreground"
+                >
+                  Keluar
+                </button>
+              </div>
             )}
           </div>
         </div>
