@@ -11,7 +11,7 @@ const mockProjects: Project[] = [
     description: "Chatbot modern dengan RAG dan caching",
     tags: ["Next.js", "AI", "RAG"],
     url: "#",
-    shortDescription: ""
+    shortDescription: "Chatbot modern dengan RAG dan caching"
   },
   {
     id: "2",
@@ -19,7 +19,7 @@ const mockProjects: Project[] = [
     description: "UI/UX e‑commerce minimalis, cepat, responsif",
     tags: ["Tailwind", "UI"],
     url: "#",
-    shortDescription: ""
+    shortDescription: "UI/UX e‑commerce minimalis, cepat, responsif"
   },
   {
     id: "3",
@@ -27,7 +27,7 @@ const mockProjects: Project[] = [
     description: "Kolaborasi realtime dengan Firebase",
     tags: ["Firebase", "Realtime"],
     url: "#",
-    shortDescription: ""
+    shortDescription: "Kolaborasi realtime dengan Firebase"
   },
   {
     id: "4",
@@ -35,7 +35,7 @@ const mockProjects: Project[] = [
     description: "Sistem token warna OKLCH yang konsisten",
     tags: ["Design System", "OKLCH"],
     url: "#",
-    shortDescription: ""
+    shortDescription: "Sistem token warna OKLCH yang konsisten"
   },
 ];
 
